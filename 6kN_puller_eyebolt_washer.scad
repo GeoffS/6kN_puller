@@ -2,18 +2,27 @@ include <../OpenSCAD_Lib/MakeInclude.scad>
 
 washerID = 16.5;
 washerOD = 32;
-washerX = 25;
-washerZ = 0.3;
+washerShimX = 25.5;
+washerShimZ = 0.4;
+
+washerWingsX = 2;
+washerWingsY = 12.2;
+washerWingsZ = 3;
+
+washerX = washerShimX + 2*washerWingsX;
 
 module itemModule()
 {
 	difference()
 	{
-		cylinder(d=washerOD, h=washerZ);
+		cylinder(d=washerOD, h=washerShimZ);
 
 		tcy([0,0,-1], d=washerID, h=2);
 		doubleX() tcu([washerX/2, -50, -50], 100);
 	}
+
+	// Wings:
+	#doubleX() tcu([washerShimX/2, -washerWingsY/2, 0], [washerWingsX, washerWingsY, washerWingsZ]);
 }
 
 module clip(d=0)
