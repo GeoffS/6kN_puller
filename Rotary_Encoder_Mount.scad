@@ -49,8 +49,26 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
+    displayGhost() encoderGhost();
 }
 else
 {
 	itemModule();
+}
+
+module encoderGhost()
+{
+    faceZ = 2.8;
+    bodyOD = 38.5;
+    bodyAndFaceZ = 35;
+    bodyZ = bodyAndFaceZ - faceZ;
+
+    tcy([0,0,-faceZ], d=faceOD, h=faceZ);
+    tcy([0,0,-bodyAndFaceZ], d=bodyOD, h=bodyZ);
+    simpleChamferedCylinder(d=faceOpeningOD, h=faceOpeningZ, cz=0.2);
+    difference()
+    {
+        cylinder(d=shaftOD, h=shaftFromFaceZ);
+        tcu([shaftFlat-shaftOD/2, -20, 0], 40);
+    }
 }
