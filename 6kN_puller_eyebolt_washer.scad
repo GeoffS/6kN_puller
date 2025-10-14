@@ -4,7 +4,7 @@ include <../OpenSCADdesigns/chamferedCylinders.scad>
 washerID = 16.5;
 washerOD = 32;
 washerShimX = 25.5;
-washerShimZ = 0.4;
+washerShimZ = 0.5;
 
 washerWingsX = 2;
 washerWingsY = 20;
