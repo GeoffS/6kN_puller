@@ -1,4 +1,5 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
+include <../OpenSCADdesigns/chamferedCylinders.scad>
 
 shaftOD = 6;
 shaftFlat = 5.48;
@@ -22,8 +23,11 @@ module itemModule()
 {
 	difference()
     {
-        cylinder(d=faceOD, h=mountZ);
+        simpleChamferedCylinder(d=faceOD, h=mountZ, cz=1.5);
+
         tcy([0,0,-100], d=faceOpeningOD, h=200);
+        translate([0,0,mountZ-faceOpeningOD/2-0.6]) cylinder(d2=30, d1=0, h=15);
+        translate([0,0,-15+faceOpeningOD/2+0.6]) cylinder(d1=30, d2=0, h=15);
 
         for(a = [0, 120, 240])
         {
@@ -31,6 +35,7 @@ module itemModule()
             {
                 tcy([0,0,-100], d=mountingHolesOD, h=200);
                 tcy([0,0,mountingScrewHeadRecessZ], d=mountingHoleHeadRecessDia, h=200);
+                translate([0,0,mountZ-mountingHoleHeadRecessDia/2-0.6]) cylinder(d2=10, d1=0, h=5);
             }
         }
     }
@@ -38,7 +43,7 @@ module itemModule()
 
 module clip(d=0)
 {
-	//tc([-200, -400-d, -10], 400);
+	// tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
