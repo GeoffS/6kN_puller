@@ -7,7 +7,7 @@ washerShimX = 25.5;
 washerShimZ = 0.4;
 
 washerWingsX = 2;
-washerWingsY = 20; //12.2;
+washerWingsY = 20;
 washerWingsZ = 3;
 
 washerX = washerShimX + 2*washerWingsX;
@@ -29,9 +29,6 @@ module itemModule()
 		tcy([0,0,-1], d=washerID, h=100);
 		tcu([-washerShimX/2, -100, washerShimZ], [washerShimX, 200, 200]);
 	}
-
-	// Wings:
-	// #doubleX() tcu([washerShimX/2, -washerWingsY/2, 0], [washerWingsX, washerWingsY, washerWingsZ]);
 }
 
 module clip(d=0)
