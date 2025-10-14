@@ -10,18 +10,28 @@ faceOpeningZ = 5;
 
 mountingHoles1CtrsDia = 13.8;
 mountingHolesOD = 3.2; // m3
+mountingHoleHeadRecessDia = 5.9; // m3 SH
+mountingHoleThreadDepth = 4;
+mountingScrewLen = 8;
 
+mountZ = shaftFromFaceZ;
+
+mountingScrewHeadRecessZ = mountingScrewLen - mountingHoleThreadDepth;
 
 module itemModule()
 {
 	difference()
     {
-        cylinder(d=faceOD, h=1);
+        cylinder(d=faceOD, h=mountZ);
         tcy([0,0,-100], d=faceOpeningOD, h=200);
 
         for(a = [0, 120, 240])
         {
-            rotate([0,0,a]) tcy([mountingHoles1CtrsDia,0,-100], d=mountingHolesOD, h=200);
+            rotate([0,0,a]) translate([mountingHoles1CtrsDia,0,])
+            {
+                tcy([0,0,-100], d=mountingHolesOD, h=200);
+                tcy([0,0,mountingScrewHeadRecessZ], d=mountingHoleHeadRecessDia, h=200);
+            }
         }
     }
 }
