@@ -19,7 +19,7 @@ mountZ = shaftFromFaceZ;
 
 mountingScrewHeadRecessZ = mountingScrewLen - mountingHoleThreadDepth;
 
-module itemModule()
+module mount()
 {
 	difference()
     {
@@ -41,19 +41,47 @@ module itemModule()
     }
 }
 
+sheaveZ = shaftFromFaceZ - faceOpeningZ;
+
+module sheave()
+{
+    difference() 
+    {
+        cylinder(d=10, h=sheaveZ);
+        rotate([0,0,180]) shaft(dd=0.2, z=20);
+    }
+}
+
+module shaft(dd=0, z=shaftFromFaceZ)
+{
+    effDia = shaftOD + dd;
+    difference()
+    {
+        cylinder(d=effDia, h=z);
+        tcu([shaftFlat-shaftOD/2+dd/2, -20, -1], 40);
+    }
+}
+
 module clip(d=0)
 {
-	// tc([-200, -400-d, -10], 400);
+	tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
 {
-	display() itemModule();
-    displayGhost() encoderGhost();
+    display() sheave();
+    translate([0,0,-faceOpeningZ])
+    {
+        displayGhost() mount();
+        displayGhost() encoderGhost();
+    }
+
+	// display() mount();
+    // displayGhost() encoderGhost();
 }
 else
 {
-	itemModule();
+	mount();
 }
 
 module encoderGhost()
@@ -66,9 +94,5 @@ module encoderGhost()
     tcy([0,0,-faceZ], d=faceOD, h=faceZ);
     tcy([0,0,-bodyAndFaceZ], d=bodyOD, h=bodyZ);
     simpleChamferedCylinder(d=faceOpeningOD, h=faceOpeningZ, cz=0.2);
-    difference()
-    {
-        cylinder(d=shaftOD, h=shaftFromFaceZ);
-        tcu([shaftFlat-shaftOD/2, -20, 0], 40);
-    }
+    rotate([0,0,180]) shaft();
 }
