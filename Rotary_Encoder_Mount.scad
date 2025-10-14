@@ -42,6 +42,8 @@ module mount()
 }
 
 sheaveZ = shaftFromFaceZ - faceOpeningZ;
+sheaveDia = shaftOD + 2*4.7; // Aded 4.7mm for m3 set-screw.
+echo(str("sheaveDia = ", sheaveDia));
 
 module sheave()
 {
@@ -49,6 +51,8 @@ module sheave()
     {
         cylinder(d=10, h=sheaveZ);
         rotate([0,0,180]) shaft(dd=0.2, z=20);
+        // Set screw:
+        translate([0,0,sheaveZ/2]) rotate([0,-90,0]) cylinder(d=2.9, h=100);
     }
 }
 
