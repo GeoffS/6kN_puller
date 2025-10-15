@@ -15,7 +15,7 @@ mountingHoleHeadRecessDia = 5.9; // m3 SH
 mountingHoleThreadDepth = 4;
 mountingScrewLen = 8;
 
-mountZ = shaftFromFaceZ;
+mountZ = shaftFromFaceZ + 1.8;
 
 mountingScrewHeadRecessZ = mountingScrewLen - mountingHoleThreadDepth;
 
@@ -49,10 +49,17 @@ module sheave()
 {
     difference() 
     {
-        cylinder(d=sheaveDia, h=sheaveZ);
+        union()
+        {
+            // Main body:
+            cylinder(d=sheaveDia, h=sheaveZ);
+            // Ends:
+            translate([0,0,sheaveZ/2]) doubleZ() translate([0,0,-sheaveZ/2]) simpleChamferedCylinder(d=faceOpeningOD-1, h=3, cz=2.25);
+        }
         rotate([0,0,180]) shaft(dd=0.2, z=20);
         // Set screw:
         translate([0,0,sheaveZ/2]) rotate([0,-90,0]) cylinder(d=2.9, h=100);
+        
     }
 }
 
