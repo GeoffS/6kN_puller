@@ -6,13 +6,13 @@ shaftFlat = 5.48;
 shaftFromFaceZ = 20;
 
 faceOD = 38.3;
-faceOpeningOD = 20.2 + 0.2;
+faceOpeningOD = 20.2 + 0.1;
 faceOpeningZ = 5;
 
-mountingHoles1CtrsDia = 13.8;
+mountingHoles1CtrsDia = 13.9;
 mountingHolesOD = 4; //3.2; // m3
-mountingHoleHeadRecessDia = 5.9; // m3 SH
-mountingHoleThreadDepth = 4;
+mountingHoleHeadRecessDia = 6; // m3 SH
+mountingHoleThreadDepth = 3.8;
 mountingScrewLen = 8;
 
 mountZ = shaftFromFaceZ + 1.8;
@@ -24,7 +24,7 @@ module mount()
 {
 	difference()
     {
-        simpleChamferedCylinder(d=mountOD, h=mountZ, cz=1.5);
+        simpleChamferedCylinder(d=mountOD, h=mountZ, cz=1.3);
 
         tcy([0,0,-100], d=faceOpeningOD, h=200);
         translate([0,0,mountZ-faceOpeningOD/2-0.6]) cylinder(d2=30, d1=0, h=15);
