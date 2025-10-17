@@ -20,6 +20,17 @@ mountOD = faceOD;
 
 mountingScrewHeadRecessZ = mountingScrewLen - mountingHoleThreadDepth;
 
+sheaveZ = shaftFromFaceZ - faceOpeningZ;
+sheaveDia = shaftOD + 2*4.4; // Aded 4.7mm for m3 set-screw.
+echo(str("sheaveDia = ", sheaveDia));
+
+stringGuideDeltaY = sheaveDia/2;
+stringGuideDeltaZ = 4.4;
+stringGuideBottomZ = faceOpeningZ+sheaveZ/2-sheaveZ/2+stringGuideDeltaZ; //faceOpeningZ + sheaveZ/2 - sheaveZ/2+stringGuideDeltaZ;
+stringGuideTopZ = faceOpeningZ+sheaveZ/2+sheaveZ/2-stringGuideDeltaZ;
+echo(str("stringGuideBottomZ = ", stringGuideBottomZ));
+echo(str("stringGuideTopZ = ", stringGuideTopZ));
+
 module mount()
 {
 	difference()
@@ -41,23 +52,24 @@ module mount()
             }
         }
 
-        // string guides:
-        translate([0,0,faceOpeningZ]) translate([0,0,sheaveZ/2]) 
-            doubleZ() 
-                translate([0,0,-sheaveZ/2+4.4])  
-                    rotate([0,-90,0]) 
-                    {
-                        stringHoleDia = 2;
-                        cylinder(d=stringHoleDia, h=100);
-                        translate([0,0,faceOpeningOD/2-3+stringHoleDia/2+0.6]) cylinder(d1=6,d2=0,h=3);
-                        translate([0,0,mountOD/2-stringHoleDia/2-1.5]) cylinder(d2=6,d1=0,h=3);
-                    }
+        // String guides:
+        stringGuideHole(dY= stringGuideDeltaY, z=stringGuideBottomZ);
+        stringGuideHole(dY=-stringGuideDeltaY, z=stringGuideTopZ);
     }
 }
 
-sheaveZ = shaftFromFaceZ - faceOpeningZ;
-sheaveDia = shaftOD + 2*4.4; // Aded 4.7mm for m3 set-screw.
-echo(str("sheaveDia = ", sheaveDia));
+module stringGuideHole(dY, z)
+{
+    translate([0, dY, z])  
+        rotate([0,-90,0]) 
+        {
+            stringHoleDia = 2;
+            cylinder(d=stringHoleDia, h=100);
+            translate([0,0,faceOpeningOD/2-3+stringHoleDia/2+0.6]) cylinder(d1=6,d2=0,h=3);
+            translate([0,0,mountOD/2-stringHoleDia/2-1.5]) cylinder(d2=6,d1=0,h=3);
+        }
+}
+
 
 module sheave()
 {
@@ -89,20 +101,24 @@ module shaft(dd=0, z=shaftFromFaceZ)
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -10], 400);
+	// tcu([-200, -400-d, -10], 400);
+
+    tcu([-200,-200,stringGuideTopZ], 400);
+    tcu([-200,0,stringGuideBottomZ], 400);
 }
 
 if(developmentRender)
 {
-    display() sheave();
-    translate([0,0,-faceOpeningZ])
-    {
-        displayGhost() mount();
-        displayGhost() encoderGhost();
-    }
+    // display() sheave();
+    // translate([0,0,-faceOpeningZ])
+    // {
+    //     displayGhost() mount();
+    //     displayGhost() encoderGhost();
+    // }
 
-	// display() mount();
-    // displayGhost() encoderGhost();
+	display() mount();
+    displayGhost() encoderGhost();
+    displayGhost() translate([0,0,faceOpeningZ]) sheave();
 }
 else
 {
