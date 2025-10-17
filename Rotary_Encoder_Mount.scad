@@ -53,21 +53,37 @@ module mount()
         }
 
         // String guides:
-        stringGuideHole(dY= stringGuideDeltaY, z=stringGuideBottomZ);
-        stringGuideHole(dY=-stringGuideDeltaY, z=stringGuideTopZ);
+        stringGuideHole(dY= stringGuideDeltaY, z=stringGuideBottomZ, angleFactor=1);
+        stringGuideHole(dY=-stringGuideDeltaY, z=stringGuideTopZ, angleFactor=-1);
     }
 }
 
-module stringGuideHole(dY, z)
+module stringGuideHole(dY, z, angleFactor)
 {
-    translate([0, dY, z])  
-        rotate([0,-90,0]) 
+    stringHoleDia = 2;
+    rotate([0,0,60]) translate([0, 0, z])  
+    {
+        translate([0, dY, 0]) rotate([0,-90,0]) 
         {
-            stringHoleDia = 2;
             cylinder(d=stringHoleDia, h=100);
-            translate([0,0,faceOpeningOD/2-3+stringHoleDia/2+0.6]) cylinder(d1=6,d2=0,h=3);
-            translate([0,0,mountOD/2-stringHoleDia/2-1.5]) cylinder(d2=6,d1=0,h=3);
+            hull()
+            {
+                d2 = faceOpeningOD/2-sheaveDia/2 + stringHoleDia/2; // Tangent to face-opening.
+                tcy([0,0,0], d=stringHoleDia, h=faceOpeningOD/2+5);
+                tcy([0,(d2/2-stringHoleDia/2)*angleFactor,0], d=d2, h=nothing);
+            }
+            // cylinder(d=stringHoleDia, h=100);
+            // translate([0,0,6]) cylinder(d1=6,d2=0,h=3);
+            // translate([0,0,mountOD/2-stringHoleDia/2-1.5]) cylinder(d2=6,d1=0,h=3);
         }
+        // h = 4;
+        // innerAngle = -45;
+        // innerOffset = faceOpeningOD/2 - 3 + stringHoleDia/2 + 0.6;
+        // rotate([0,0,innerAngle*angleFactor]) rotate([0,-90,0]) 
+        // {
+        //     // translate([0,0,innerOffset]) rotate([20*angleFactor,0,0]) cylinder(d1=2*h,d2=0,h=4);
+        // }
+    }
 }
 
 
