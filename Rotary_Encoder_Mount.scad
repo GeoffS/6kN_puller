@@ -66,15 +66,24 @@ module stringGuideHole(dY, z, angleFactor)
         translate([0, dY, 0]) rotate([0,-90,0]) 
         {
             cylinder(d=stringHoleDia, h=100);
+            taperCrossover = 5;
+            // Taper on the inside to be tangent with the face-opening:
             hull()
             {
                 d2 = faceOpeningOD/2-sheaveDia/2 + stringHoleDia/2; // Tangent to face-opening.
-                tcy([0,0,0], d=stringHoleDia, h=faceOpeningOD/2+5);
+                tcy([0,0,0], d=stringHoleDia, h=faceOpeningOD/2+taperCrossover-2);
                 tcy([0,(d2/2-stringHoleDia/2)*angleFactor,0], d=d2, h=nothing);
+            }
+            // Taper on the outside to be "good looking":
+            hull()
+            {
+                z2 = faceOpeningOD/2+taperCrossover;
+                tcy([0,0,z2], d=stringHoleDia, h=8);
+                tcy([0, 0.5*angleFactor, z2+5], d=10, h=nothing);
             }
             // cylinder(d=stringHoleDia, h=100);
             // translate([0,0,6]) cylinder(d1=6,d2=0,h=3);
-            // translate([0,0,mountOD/2-stringHoleDia/2-1.5]) cylinder(d2=6,d1=0,h=3);
+            // translate([0,0,mountOD/2-stringHoleDia/2-4]) cylinder(d2=6,d1=0,h=5);
         }
         // h = 4;
         // innerAngle = -45;
