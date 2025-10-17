@@ -1,6 +1,9 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCADdesigns/chamferedCylinders.scad>
 
+makeMount = false;
+makeSheave = false;
+
 shaftOD = 6;
 shaftFlat = 5.48;
 shaftFromFaceZ = 20;
@@ -56,6 +59,20 @@ module mount()
         // String guides:
         stringGuideHole(dY=stringGuideDeltaY, z=stringGuideBottomZ, angleFactor= 1);
         stringGuideHole(dY=stringGuideDeltaY, z=stringGuideTopZ,    angleFactor=-1);
+
+        // Visibility slot:
+        visibilitySlotDia = 8;
+        rotate([0,0,-120]) 
+        {
+            rotate([0,-90,0]) 
+            {
+                hull()
+                {
+                    tcy([faceOpeningZ + 2.0 + visibilitySlotDia/2, 0,0], d=visibilitySlotDia, h=100, $fn=4);
+                    tcy([mountZ       - 3.8 - visibilitySlotDia/2, 0,0], d=visibilitySlotDia, h=100, $fn=4);
+                }
+            }
+        }
     }
 }
 
@@ -123,6 +140,8 @@ module clip(d=0)
     //     tcu([-200,-200,stringGuideTopZ], 400);
     //     tcu([-200,0,stringGuideBottomZ], 400);
     // }
+
+    rotate([0,0,-120]) tcu([-200,0,-100], 400);
 }
 
 if(developmentRender)
@@ -140,7 +159,8 @@ if(developmentRender)
 }
 else
 {
-	mount();
+	if(makeMount) mount();
+    if(makeSheave) sheave();
 }
 
 module encoderGhost()
