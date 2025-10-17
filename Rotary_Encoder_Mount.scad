@@ -24,7 +24,8 @@ sheaveZ = shaftFromFaceZ - faceOpeningZ;
 sheaveDia = shaftOD + 2*4.4; // Aded 4.7mm for m3 set-screw.
 echo(str("sheaveDia = ", sheaveDia));
 
-stringGuideDeltaY = sheaveDia/2;
+stringHoleDia = 2;
+stringGuideDeltaY = sheaveDia/2 + stringHoleDia*0.3;
 stringGuideDeltaZ = 4.4;
 stringGuideBottomZ = faceOpeningZ+sheaveZ/2-sheaveZ/2+stringGuideDeltaZ; //faceOpeningZ + sheaveZ/2 - sheaveZ/2+stringGuideDeltaZ;
 stringGuideTopZ = faceOpeningZ+sheaveZ/2+sheaveZ/2-stringGuideDeltaZ;
@@ -53,24 +54,23 @@ module mount()
         }
 
         // String guides:
-        stringGuideHole(dY= stringGuideDeltaY, z=stringGuideBottomZ, angleFactor=1);
-        stringGuideHole(dY=-stringGuideDeltaY, z=stringGuideTopZ, angleFactor=-1);
+        stringGuideHole(dY=stringGuideDeltaY, z=stringGuideBottomZ, angleFactor= 1);
+        stringGuideHole(dY=stringGuideDeltaY, z=stringGuideTopZ,    angleFactor=-1);
     }
 }
 
 module stringGuideHole(dY, z, angleFactor)
 {
-    stringHoleDia = 2;
     rotate([0,0,60]) translate([0, 0, z])  
     {
-        translate([0, dY, 0]) rotate([0,-90,0]) 
+        translate([0, dY*angleFactor, 0]) rotate([0,-90,0]) 
         {
             cylinder(d=stringHoleDia, h=100);
             taperCrossover = 5;
             // Taper on the inside to be tangent with the face-opening:
             hull()
             {
-                d2 = faceOpeningOD/2-sheaveDia/2 + stringHoleDia/2; // Tangent to face-opening.
+                d2 = faceOpeningOD/2 - dY + stringHoleDia/2; // Tangent to face-opening.
                 tcy([0,0,0], d=stringHoleDia, h=faceOpeningOD/2+taperCrossover-2);
                 tcy([0,(d2/2-stringHoleDia/2)*angleFactor,0], d=d2, h=nothing);
             }
