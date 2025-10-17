@@ -27,7 +27,7 @@ sheaveZ = shaftFromFaceZ - faceOpeningZ;
 sheaveDia = shaftOD + 2*4.4; // Aded 4.7mm for m3 set-screw.
 echo(str("sheaveDia = ", sheaveDia));
 
-stringHoleDia = 2;
+stringHoleDia = 3;
 stringGuideDeltaY = sheaveDia/2 + stringHoleDia*0.3;
 stringGuideDeltaZ = 4.4;
 stringGuideBottomZ = faceOpeningZ+sheaveZ/2-sheaveZ/2+stringGuideDeltaZ;
@@ -135,13 +135,13 @@ module clip(d=0)
 {
 	// tcu([-200, -400-d, -10], 400);
 
-    // rotate([0,0,60]) 
-    // {
-    //     tcu([-200,-200,stringGuideTopZ], 400);
-    //     tcu([-200,0,stringGuideBottomZ], 400);
-    // }
+    rotate([0,0,60]) 
+    {
+        tcu([-200,-200,stringGuideTopZ], 400);
+        tcu([-200,0,stringGuideBottomZ], 400);
+    }
 
-    rotate([0,0,-120]) tcu([-200,0,-100], 400);
+    // rotate([0,0,-120]) tcu([-200,0,-100], 400);
 }
 
 if(developmentRender)
