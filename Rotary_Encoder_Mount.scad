@@ -81,17 +81,7 @@ module stringGuideHole(dY, z, angleFactor)
                 tcy([0,0,z2], d=stringHoleDia, h=8);
                 tcy([0, 0.5*angleFactor, z2+5], d=10, h=nothing);
             }
-            // cylinder(d=stringHoleDia, h=100);
-            // translate([0,0,6]) cylinder(d1=6,d2=0,h=3);
-            // translate([0,0,mountOD/2-stringHoleDia/2-4]) cylinder(d2=6,d1=0,h=5);
         }
-        // h = 4;
-        // innerAngle = -45;
-        // innerOffset = faceOpeningOD/2 - 3 + stringHoleDia/2 + 0.6;
-        // rotate([0,0,innerAngle*angleFactor]) rotate([0,-90,0]) 
-        // {
-        //     // translate([0,0,innerOffset]) rotate([20*angleFactor,0,0]) cylinder(d1=2*h,d2=0,h=4);
-        // }
     }
 }
 
