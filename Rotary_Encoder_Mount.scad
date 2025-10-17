@@ -119,8 +119,11 @@ module clip(d=0)
 {
 	// tcu([-200, -400-d, -10], 400);
 
-    tcu([-200,-200,stringGuideTopZ], 400);
-    tcu([-200,0,stringGuideBottomZ], 400);
+    rotate([0,0,60]) 
+    {
+        tcu([-200,-200,stringGuideTopZ], 400);
+        tcu([-200,0,stringGuideBottomZ], 400);
+    }
 }
 
 if(developmentRender)
