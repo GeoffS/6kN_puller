@@ -79,7 +79,7 @@ module stringGuideHole(dY, z, angleFactor)
             {
                 z2 = faceOpeningOD/2+taperCrossover;
                 tcy([0,0,z2], d=stringHoleDia, h=8);
-                tcy([0, 0.5*angleFactor, z2+5], d=10, h=nothing);
+                tcy([0, 0, z2+5], d=8, h=nothing);
             }
         }
     }
