@@ -4,9 +4,12 @@ include <../OpenSCADdesigns/chamferedCylinders.scad>
 makeMount = false;
 makeSheave = false;
 
-shaftOD = 6;
+shaftOD = 6.1;
 shaftFlat = 5.48;
+shaftFlatOffsetZ = 2.3; // FaceOpening to start of flat.
 shaftFromFaceZ = 20;
+
+sheaveOffsetZ = 1; // FaceOpening to sheave
 
 faceOD = 38.3;
 faceOpeningOD = 20.2 + 0.1;
@@ -23,15 +26,17 @@ mountOD = faceOD;
 
 mountingScrewHeadRecessZ = mountingScrewLen - mountingHoleThreadDepth;
 
-sheaveZ = shaftFromFaceZ - faceOpeningZ;
+sheaveZ = shaftFromFaceZ - faceOpeningZ - sheaveOffsetZ;
 sheaveDia = shaftOD + 2*4.4; // Aded 4.7mm for m3 set-screw.
 echo(str("sheaveDia = ", sheaveDia));
 
 stringHoleDia = 3;
 stringGuideDeltaY = sheaveDia/2 + stringHoleDia*0.3;
 stringGuideDeltaZ = 4.4;
-stringGuideBottomZ = faceOpeningZ+sheaveZ/2-sheaveZ/2+stringGuideDeltaZ;
-stringGuideTopZ = faceOpeningZ+sheaveZ/2+sheaveZ/2-stringGuideDeltaZ;
+
+stringGuideBottomZ = faceOpeningZ+sheaveOffsetZ+sheaveZ/2-sheaveZ/2+stringGuideDeltaZ;
+stringGuideTopZ = faceOpeningZ+sheaveOffsetZ+sheaveZ/2+sheaveZ/2-stringGuideDeltaZ;
+
 echo(str("stringGuideBottomZ = ", stringGuideBottomZ));
 echo(str("stringGuideTopZ = ", stringGuideTopZ));
 
@@ -114,7 +119,8 @@ module sheave()
             // Ends:
             translate([0,0,sheaveZ/2]) doubleZ() translate([0,0,-sheaveZ/2]) simpleChamferedCylinder(d=faceOpeningOD-1, h=3, cz=2.25);
         }
-        rotate([0,0,180]) shaft(dd=0.2, z=20);
+        // Shaft:
+        shaft(dd=0.2, z=20);
         // Set screw:
         translate([0,0,sheaveZ/2]) rotate([0,-90,0]) cylinder(d=2.9, h=100);
         
@@ -124,10 +130,10 @@ module sheave()
 module shaft(dd=0, z=shaftFromFaceZ)
 {
     effDia = shaftOD + dd;
-    difference()
+    rotate([0,0,180]) difference()
     {
         cylinder(d=effDia, h=z);
-        tcu([shaftFlat-shaftOD/2+dd/2, -20, -1], 40);
+        tcu([shaftFlat-shaftOD/2+dd/2, -20, faceOpeningZ+sheaveOffsetZ+shaftFlatOffsetZ], 40);
     }
 }
 
@@ -135,27 +141,27 @@ module clip(d=0)
 {
 	// tcu([-200, -400-d, -10], 400);
 
-    rotate([0,0,60]) 
-    {
-        tcu([-200,-200,stringGuideTopZ], 400);
-        tcu([-200,0,stringGuideBottomZ], 400);
-    }
+    // rotate([0,0,60]) 
+    // {
+    //     tcu([-200,-200,stringGuideTopZ], 400);
+    //     tcu([-200,0,stringGuideBottomZ], 400);
+    // }
 
     // rotate([0,0,-120]) tcu([-200,0,-100], 400);
 }
 
 if(developmentRender)
 {
-    // display() sheave();
-    // translate([0,0,-faceOpeningZ])
-    // {
-    //     displayGhost() mount();
-    //     displayGhost() encoderGhost();
-    // }
+    display() sheave();
+    translate([0,0,-faceOpeningZ-sheaveOffsetZ])
+    {
+        displayGhost() mount();
+        displayGhost() encoderGhost();
+    }
 
-	display() mount();
-    displayGhost() encoderGhost();
-    displayGhost() translate([0,0,faceOpeningZ]) sheave();
+	// display() mount();
+    // displayGhost() encoderGhost();
+    // displayGhost() translate([0,0,faceOpeningZ+sheaveOffsetZ]) sheave();
 }
 else
 {
@@ -173,5 +179,5 @@ module encoderGhost()
     tcy([0,0,-faceZ], d=faceOD, h=faceZ);
     tcy([0,0,-bodyAndFaceZ], d=bodyOD, h=bodyZ);
     simpleChamferedCylinder(d=20.2, h=faceOpeningZ, cz=0.2);
-    rotate([0,0,180]) shaft();
+    shaft();
 }
