@@ -153,11 +153,11 @@ module clip(d=0)
 if(developmentRender)
 {
     display() sheave();
-    translate([0,0,-faceOpeningZ-sheaveOffsetZ])
-    {
-        displayGhost() mount();
-        displayGhost() encoderGhost();
-    }
+    // translate([0,0,-faceOpeningZ-sheaveOffsetZ])
+    // {
+    //     displayGhost() mount();
+    //     displayGhost() encoderGhost();
+    // }
 
 	// display() mount();
     // displayGhost() encoderGhost();
