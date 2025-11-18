@@ -18,8 +18,8 @@ boxInteriorZ = boardClearanceBelow + boardThickness + boardClearanceAbove;
 
 boxExteriorCZ = 1;
 
-boxWallThicknessXY = 2*boxExteriorCZ + 2;
-boxWallThicknessZ = 2;
+boxWallThicknessXY = 4*boxExteriorCZ + 2;
+boxWallThicknessZ = 3;
 
 boxExteriorCornerDia = boxInteriorCornerDia + boxWallThicknessXY;
 
@@ -33,16 +33,26 @@ module itemModule()
 {
 	difference()
     {
+        // Exterior:
         hull()
         {
             doubleX() translate([cX, c1Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
             doubleX() translate([cX, c2Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
         }
 
+        // Interior:
         hull()
         {
             doubleX() translate([cX, c1Y, 0]) simpleChamferedCylinderDoubleEnded(d=boxInteriorCornerDia, h=100, cz=boxExteriorCZ);
             doubleX() translate([cX, c2Y, 0]) simpleChamferedCylinderDoubleEnded(d=boxInteriorCornerDia, h=100, cz=boxExteriorCZ);
+        }
+
+        // Interior top wall chamfer:
+        hull()
+        {
+            z = boxInteriorZ - boxInteriorCornerDia/2 - boxExteriorCZ;
+            doubleX() translate([cX, c1Y, z]) cylinder(d1=0, d2=20, h=10);
+            doubleX() translate([cX, c2Y, z]) cylinder(d1=0, d2=20, h=10);
         }
     }
 }
@@ -50,6 +60,8 @@ module itemModule()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
+
+    tcu([0, -200, -200], 400);
 }
 
 if(developmentRender)
