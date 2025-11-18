@@ -16,6 +16,8 @@ boxInteriorCornerDia = 10;
 boardInteriorExtraX = 0.2;
 boardInteriorExtraY = boxInteriorCornerDia/2;
 
+boardHolesY = boardHoleCtrsY + boardInteriorExtraY;
+
 boxInteriorX = boardX + 2*boardInteriorExtraX;
 boxInteriorY = boardY + 2*boardInteriorExtraY;
 boxInteriorZ = boardClearanceBelow + boardThickness + boardClearanceAbove;
@@ -34,6 +36,7 @@ c1Y = boxInteriorCornerDia/2;
 c2Y = boxInteriorY - boxInteriorCornerDia/2;
 
 standoffOD = boardHoleDia + 2*1.5;
+standoffBaseOD = standoffOD + 4;
 
 module itemModule()
 {
@@ -44,12 +47,7 @@ module itemModule()
             // Basic box exterior and interior:
             difference()
             {
-                // Exterior:
-                hull()
-                {
-                    doubleX() translate([cX, c1Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
-                    doubleX() translate([cX, c2Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
-                }
+                exterior();
 
                 // Interior:
                 hull()
@@ -67,17 +65,52 @@ module itemModule()
                 }
             }
 
-            // Standoffs for board:
-            holesXform() translate([0,0,-nothing])
+            // Board support structure:
+            translate([0,0,-nothing])
             {
-                cylinder(d=standoffOD, h=boardClearanceBelow + nothing);
-                // Chamfered at bottom:
-                translate([0,0,-nothing]) cylinder(d1=standoffOD+4, d2=0, h=standoffOD/2+2);
+                h = boardClearanceBelow + nothing;
+
+                // Standoffs for board:
+                holesXform() 
+                {
+                    cylinder(d=standoffOD, h=h);
+                    // Chamfered at bottom:
+                    translate([0,0,-nothing]) cylinder(d1=standoffBaseOD, d2=0, h=standoffOD/2+2);
+                }
+
+                // Front corners board supports:
+                intersection()
+                {
+                    exterior();
+                    
+                    d = 4;
+                    cz = 1;
+                    x1 = boardHoleSpacingX/2 - standoffBaseOD/2 + d/2;
+                    x2 = 40;
+                    y = boardHolesY - d/2;
+                    doubleX() hull()
+                    {
+                        translate([x1,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        translate([x2,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        translate([x1,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        translate([x2,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                    }
+                }
             }
         }
 
         // Holes:
         holesXform() hole();
+    }
+}
+
+module exterior()
+{
+    // Exterior:
+    hull()
+    {
+        doubleX() translate([cX, c1Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
+        doubleX() translate([cX, c2Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
     }
 }
 
@@ -88,7 +121,7 @@ module hole()
 
 module holesXform()
 {
-    doubleX() translate([boardHoleSpacingX/2, boardHoleCtrsY+boardInteriorExtraY, 0]) children();
+    doubleX() translate([boardHoleSpacingX/2, boardHolesY, 0]) children();
 }
 
 module clip(d=0)
@@ -96,7 +129,8 @@ module clip(d=0)
 	// tc([-200, -400-d, -10], 400);
 
     // tcu([-d, -200, -200], 400);
-    tcu([-200, boxInteriorY/2-d, -200], 400);
+    // tcu([-400-d, -200, -200], 400);
+    // tcu([-200, boxInteriorY/2-d, -200], 400);
 }
 
 if(developmentRender)
