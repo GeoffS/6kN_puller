@@ -68,7 +68,12 @@ module itemModule()
             }
 
             // Standoffs for board:
-            holesXform() tcy([0,0,-nothing], d=standoffOD, h=boardClearanceBelow + nothing);
+            holesXform() translate([0,0,-nothing])
+            {
+                cylinder(d=standoffOD, h=boardClearanceBelow + nothing);
+                // Chamfered at bottom:
+                translate([0,0,-nothing]) cylinder(d1=standoffOD+4, d2=0, h=standoffOD/2+2);
+            }
         }
 
         // Holes:
