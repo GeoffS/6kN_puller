@@ -12,8 +12,12 @@ boardHoleCtrsY = 10.6;
 boardHoleDia = 3.1;
 
 boxInteriorCornerDia = 10;
-boxInteriorX = boardX + boxInteriorCornerDia;
-boxInteriorY = boardY + boxInteriorCornerDia;
+
+boardInteriorExtraX = 0.2;
+boardInteriorExtraY = boxInteriorCornerDia/2;
+
+boxInteriorX = boardX + 2*boardInteriorExtraX;
+boxInteriorY = boardY + 2*boardInteriorExtraY;
 boxInteriorZ = boardClearanceBelow + boardThickness + boardClearanceAbove;
 
 boxExteriorCZ = 1;
@@ -27,7 +31,7 @@ boxExteriorZ = boxWallThicknessZ + boxInteriorZ;
 
 cX = boxInteriorX/2 - boxInteriorCornerDia/2;
 c1Y = boxInteriorCornerDia/2;
-c2Y = boxInteriorY + boxInteriorCornerDia/2;
+c2Y = boxInteriorY - boxInteriorCornerDia/2; // + boxInteriorCornerDia/2;
 
 module itemModule()
 {
@@ -54,21 +58,46 @@ module itemModule()
             doubleX() translate([cX, c1Y, z]) cylinder(d1=0, d2=20, h=10);
             doubleX() translate([cX, c2Y, z]) cylinder(d1=0, d2=20, h=10);
         }
+
+        // Holes:
+        holesXform() hole();
     }
+}
+
+module hole()
+{
+    tcy([0,0,-100], d=3.2, h=200);
+}
+
+module holesXform()
+{
+    doubleX() translate([boardHoleSpacingX/2, boardHoleCtrsY+boardInteriorExtraY, 0]) children();
 }
 
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
 
-    tcu([0, -200, -200], 400);
+    // tcu([-d, -200, -200], 400);
+    // tcu([-200, boxInteriorY/2-d, -200], 400);
 }
 
 if(developmentRender)
 {
 	display() itemModule();
+    displayGhost() boardGhost();
 }
 else
 {
 	itemModule();
+}
+
+module boardGhost()
+{
+    difference()
+    {
+        tcu([-boardX/2, boardInteriorExtraY, boardClearanceBelow], [boardX, boardY, boardThickness]);
+
+        doubleX() translate([boardHoleSpacingX/2, boardHoleCtrsY+boardInteriorExtraY, -10]) cylinder(d=boardHoleDia, h=100);
+    }
 }
