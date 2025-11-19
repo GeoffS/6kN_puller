@@ -21,6 +21,8 @@ boardHolesY = boardHoleCtrsY + boardInteriorExtraY;
 boxInteriorX = boardX + 2*boardInteriorExtraX;
 boxInteriorY = boardY + 2*boardInteriorExtraY;
 boxInteriorZ = boardClearanceBelow + boardThickness + boardClearanceAbove;
+echo("boxInteriorZ = ", boxInteriorZ);
+echo("0.47 inches = ", 0.47*25.4, "mm");
 
 boxExteriorCZ = 1;
 
@@ -38,6 +40,10 @@ c2Y = boxInteriorY - boxInteriorCornerDia/2;
 standoffOD = boardHoleDia + 2*1.5;
 standoffBaseOD = standoffOD + 4;
 
+topOfBoardZ = boardClearanceBelow + boardThickness;
+
+frontOfBoardY = boardInteriorExtraY;
+
 module itemModule()
 {
 	difference()
@@ -52,8 +58,8 @@ module itemModule()
                 // Interior:
                 hull()
                 {
-                    doubleX() translate([cX, c1Y, 0]) simpleChamferedCylinderDoubleEnded(d=boxInteriorCornerDia, h=100, cz=boxExteriorCZ);
-                    doubleX() translate([cX, c2Y, 0]) simpleChamferedCylinderDoubleEnded(d=boxInteriorCornerDia, h=100, cz=boxExteriorCZ);
+                    doubleX() translate([cX, c1Y, 0]) simpleChamferedCylinderDoubleEnded1(d=boxInteriorCornerDia, h=100, cz=boxExteriorCZ);
+                    doubleX() translate([cX, c2Y, 0]) simpleChamferedCylinderDoubleEnded1(d=boxInteriorCornerDia, h=100, cz=boxExteriorCZ);
                 }
 
                 // Interior top wall chamfer:
@@ -63,6 +69,9 @@ module itemModule()
                     doubleX() translate([cX, c1Y, z]) cylinder(d1=0, d2=20, h=10);
                     doubleX() translate([cX, c2Y, z]) cylinder(d1=0, d2=20, h=10);
                 }
+
+                // Barrel-jack hole:
+                tcu([-100, frontOfBoardY+20, topOfBoardZ-0.5], [100, 8, 14]);
             }
 
             // Board support structure:
@@ -109,8 +118,8 @@ module exterior()
     // Exterior:
     hull()
     {
-        doubleX() translate([cX, c1Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
-        doubleX() translate([cX, c2Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
+        doubleX() translate([cX, c1Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded1(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
+        doubleX() translate([cX, c2Y, -boxWallThicknessZ]) simpleChamferedCylinderDoubleEnded1(d=boxExteriorCornerDia, h=boxExteriorZ, cz=boxExteriorCZ);
     }
 }
 
