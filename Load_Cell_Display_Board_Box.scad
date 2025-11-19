@@ -78,6 +78,10 @@ module itemModule()
 
                 // Barrel-jack and micro-USB holes combined:
                 tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 23, 50]);
+
+                // 4-pin load-cell connector hole:
+                openingY = 4*(0.1*25.4) + 5; // 4 pins at 0.1" spacing plus some extra
+                tcu([0, frontOfBoardY+boardY-openingY+0.5, topOfBoardZ+0.5], [100, openingY, 20]);
             }
 
             // Board support structure:
