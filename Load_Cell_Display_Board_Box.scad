@@ -70,8 +70,14 @@ module itemModule()
                     doubleX() translate([cX, c2Y, z]) cylinder(d1=0, d2=20, h=10);
                 }
 
-                // Barrel-jack hole:
-                tcu([-100, frontOfBoardY+20, topOfBoardZ-0.5], [100, 8, 14]);
+                // // Barrel-jack hole:
+                // tcu([-100, frontOfBoardY+20, topOfBoardZ-0.5], [100, 8, 14]);
+
+                // // Micro-USB Hole:
+                // tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 10, 50]);
+
+                // Barrel-jack and micro-USB holes combined:
+                tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 23, 50]);
             }
 
             // Board support structure:
