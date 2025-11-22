@@ -194,7 +194,7 @@ if(developmentRender)
 }
 else
 {
-	itemModule(testPrint=true);
+	itemModule(testPrint=false);
 }
 
 module boardGhost()
