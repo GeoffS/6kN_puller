@@ -108,23 +108,43 @@ module itemModule()
                         cz = 1;
                         x1 = boxInteriorX/2 - 17; //boardHoleSpacingX/2 - standoffBaseOD/2 + d/2;
                         x2 = 40;
-                        y = boardHolesY - d/2;
-                        // Right side:
+                        y1 = boardHolesY - d/2;
+                        // Right side front:
                         hull()
                         {
-                            translate([x1,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                            translate([x2,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                            translate([x1,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                            translate([x2,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x1, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x2, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x1,y1,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x2,y1,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
                         }
-                        // Left Side:
-                        x3 = -boxInteriorX/2 + 15;
+                        // Right side:
+                        x3 = boxInteriorX/2 - 4.5;
+                        y2 = 60;
                         hull()
                         {
-                            translate([ x3,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                            translate([-x2,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                            translate([ x3,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                            translate([-x2,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x3, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x2, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x3,y2,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x2,y2,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        }
+                        // Left Side front:
+                        x4 = -boxInteriorX/2 + 15;
+                        hull()
+                        {
+                            translate([ x4, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([-x2, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([ x4,y1,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([-x2,y1,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        }
+                        // Left Side"
+                        x5 = -boxInteriorX/2 + 4;
+                        y3 = 21;
+                        hull()
+                        {
+                            translate([ x5, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([-x2, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([ x5,y3,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([-x2,y3,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
                         }
                     }
                 }
