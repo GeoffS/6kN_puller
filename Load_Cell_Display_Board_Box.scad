@@ -100,7 +100,7 @@ module itemModule(testPrint=false)
                 {
                     cylinder(d=standoffOD, h=h);
                     // Chamfered at bottom:
-                    translate([0,0,-nothing]) cylinder(d1=standoffBaseOD, d2=0, h=standoffOD);
+                    // translate([0,0,-nothing]) cylinder(d1=standoffBaseOD, d2=0, h=standoffOD);
                 }
 
                 // Front corners board supports:
