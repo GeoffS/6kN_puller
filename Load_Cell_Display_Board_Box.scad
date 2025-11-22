@@ -5,7 +5,7 @@ include <../OpenSCADdesigns/Hardware.scad>
 
 boardX = 55;
 boardY = 35;
-boardClearanceBelow = 4.8;
+boardClearanceBelow = 3;
 boardThickness = 1.6;
 boardClearanceAbove = 9.5;
 boardHoleSpacingX = 31.6;
