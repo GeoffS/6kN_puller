@@ -194,7 +194,7 @@ module clip(d=0)
     // tcu([-400-d, -200, -200], 400);
     // tcu([-200, boxInteriorY/2-d, -200], 400);
 
-    tcu([boardHolesOffsetX+boardHoleSpacingX/2-d, -200, -100], 400);
+    // tcu([boardHolesOffsetX+boardHoleSpacingX/2-d, -200, -100], 400);
 }
 
 if(developmentRender)
@@ -214,7 +214,6 @@ module boardGhost()
     {
         tcu([0, 0, 0], [boardX, boardY, boardThickness]);
 
-        // doubleX() translate([boardHoleSpacingX/2, boardHoleCtrsY+boardInteriorExtraY, -10]) cylinder(d=boardHoleDia, h=100);
         translate([0,10.6,0])
         {
             // Left hole:
