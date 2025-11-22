@@ -102,13 +102,14 @@ module itemModule()
                 {
                     exterior();
                     
+                    echo(str("boxInteriorX/2 = ", boxInteriorX/2));
                     union()
                     {
                         d = 4;
                         cz = 1;
-                        x1 = boxInteriorX/2 - 17; //boardHoleSpacingX/2 - standoffBaseOD/2 + d/2;
+                        x1 = boxInteriorX/2 - 17 + d/2; //boardHoleSpacingX/2 - standoffBaseOD/2 + d/2;
                         x2 = 40;
-                        y1 = boardHolesY - d/2;
+                        y1 = boardInteriorExtraY + 14 - d/2; //boardHolesY - d/2;
                         // Right side front:
                         hull()
                         {
@@ -118,7 +119,7 @@ module itemModule()
                             translate([x2,y1,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
                         }
                         // Right side:
-                        x3 = boxInteriorX/2 - 4.5;
+                        x3 = boxInteriorX/2 - 4.5 + d/2;
                         y2 = 60;
                         hull()
                         {
@@ -128,7 +129,7 @@ module itemModule()
                             translate([x2,y2,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
                         }
                         // Left Side front:
-                        x4 = -boxInteriorX/2 + 15;
+                        x4 = -boxInteriorX/2 + 15.1 - d/2;
                         hull()
                         {
                             translate([ x4, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
@@ -136,9 +137,9 @@ module itemModule()
                             translate([ x4,y1,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
                             translate([-x2,y1,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
                         }
-                        // Left Side"
-                        x5 = -boxInteriorX/2 + 4;
-                        y3 = 21;
+                        // Left Side:
+                        x5 = -boxInteriorX/2 + 4 - d/2;
+                        y3 = boardInteriorExtraY + 18 - d/2;
                         hull()
                         {
                             translate([ x5, 0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
@@ -178,7 +179,7 @@ module holesXform()
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -10], 400);
+	tc([-200, -400+0.1-d, -10], 400);
 
     // tcu([-d, -200, -200], 400);
     // tcu([-400-d, -200, -200], 400);
