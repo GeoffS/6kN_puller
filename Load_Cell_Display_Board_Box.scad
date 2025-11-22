@@ -7,7 +7,7 @@ boardY = 35;
 boardClearanceBelow = 4.8;
 boardThickness = 1.6;
 boardClearanceAbove = 9.5;
-boardHoleSpacingX = 31.4;
+boardHoleSpacingX = 31.6;
 boardHoleCtrsY = 10.6;
 boardHoleDia = 3.1;
 
