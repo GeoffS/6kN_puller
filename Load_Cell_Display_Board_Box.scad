@@ -80,7 +80,7 @@ module itemModule()
                 // tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 23, 50]);
 
                 // 4-pin load-cell connector hole:
-                openingY = 4*(0.1*25.4) + 5; // 4 pins at 0.1" spacing plus some extra
+                openingY = 12; //4*(0.1*25.4) + 5; // 4 pins at 0.1" spacing plus some extra
                 tcu([0, frontOfBoardY+boardY-openingY+0.5, topOfBoardZ+0.5], [100, openingY, 20]);
             }
 
@@ -102,17 +102,30 @@ module itemModule()
                 {
                     exterior();
                     
-                    d = 4;
-                    cz = 1;
-                    x1 = boardHoleSpacingX/2 - standoffBaseOD/2 + d/2;
-                    x2 = 40;
-                    y = boardHolesY - d/2;
-                    doubleX() hull()
+                    union()
                     {
-                        translate([x1,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                        translate([x2,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                        translate([x1,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
-                        translate([x2,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        d = 4;
+                        cz = 1;
+                        x1 = boxInteriorX/2 - 17; //boardHoleSpacingX/2 - standoffBaseOD/2 + d/2;
+                        x2 = 40;
+                        y = boardHolesY - d/2;
+                        // Right side:
+                        hull()
+                        {
+                            translate([x1,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x2,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x1,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([x2,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        }
+                        // Left Side:
+                        x3 = -boxInteriorX/2 + 15;
+                        hull()
+                        {
+                            translate([ x3,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([-x2,0,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([ x3,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                            translate([-x2,y,0]) simpleChamferedCylinder(d=d, h=h, cz=cz);
+                        }
                     }
                 }
             }
