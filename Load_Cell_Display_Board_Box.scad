@@ -40,14 +40,14 @@ c1Y = boxInteriorCornerDia/2;
 c2Y = boxInteriorY - boxInteriorCornerDia/2;
 
 standoffOD = boardHoleDia + 2*1.5;
-standoffBaseOD = standoffOD + 4;
+standoffBaseOD = standoffOD + 6;
 
 topOfBoardZ = boardClearanceBelow + boardThickness;
 echo(str("topOfBoardZ = ", topOfBoardZ));
 
 frontOfBoardY = boardInteriorExtraY;
 
-boltLength = 8; // M3x6mm
+boltLength = 8; // M3x8mm
 nutRecessDia = M3_nutRecessDia;
 nutRecessZ = topOfBoardZ - boltLength - M3_nutRecessDepth;
 echo(str("nutRecessZ = ", nutRecessZ));
@@ -100,7 +100,7 @@ module itemModule(testPrint=false)
                 {
                     cylinder(d=standoffOD, h=h);
                     // Chamfered at bottom:
-                    translate([0,0,-nothing]) cylinder(d1=standoffBaseOD, d2=0, h=standoffOD/2+2);
+                    translate([0,0,-nothing]) cylinder(d1=standoffBaseOD, d2=0, h=standoffOD);
                 }
 
                 // Front corners board supports:
