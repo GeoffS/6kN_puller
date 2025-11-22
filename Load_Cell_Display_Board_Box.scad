@@ -71,13 +71,13 @@ module itemModule()
                 }
 
                 // // Barrel-jack hole:
-                // tcu([-100, frontOfBoardY+20, topOfBoardZ-0.5], [100, 8, 14]);
+                tcu([-100, frontOfBoardY+20.5, topOfBoardZ-0.5], [100, 6.5, 8]);
 
                 // // Micro-USB Hole:
                 // tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 10, 50]);
 
-                // Barrel-jack and micro-USB holes combined:
-                tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 23, 50]);
+                // // Barrel-jack and micro-USB holes combined:
+                // tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 23, 50]);
 
                 // 4-pin load-cell connector hole:
                 openingY = 4*(0.1*25.4) + 5; // 4 pins at 0.1" spacing plus some extra
