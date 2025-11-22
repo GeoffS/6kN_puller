@@ -1,5 +1,6 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCADdesigns/chamferedCylinders.scad>
+include <../OpenSCADdesigns/Hardware.scad>
 
 
 boardX = 55;
@@ -42,8 +43,14 @@ standoffOD = boardHoleDia + 2*1.5;
 standoffBaseOD = standoffOD + 4;
 
 topOfBoardZ = boardClearanceBelow + boardThickness;
+echo(str("topOfBoardZ = ", topOfBoardZ));
 
 frontOfBoardY = boardInteriorExtraY;
+
+boltLength = 8; // M3x6mm
+nutRecessDia = M3_nutRecessDia;
+nutRecessZ = topOfBoardZ - boltLength - M3_nutRecessDepth;
+echo(str("nutRecessZ = ", nutRecessZ));
 
 module itemModule(testPrint=false)
 {
@@ -171,6 +178,7 @@ module exterior()
 module hole()
 {
     tcy([0,0,-100], d=3.2, h=200);
+    tcy([0,0,-20-boxWallThicknessZ-nutRecessZ], d=nutRecessDia, h=20, $fn=6);
 }
 
 module holesXform()
@@ -185,12 +193,15 @@ module clip(d=0)
     // tcu([-d, -200, -200], 400);
     // tcu([-400-d, -200, -200], 400);
     // tcu([-200, boxInteriorY/2-d, -200], 400);
+
+    tcu([boardHolesOffsetX+boardHoleSpacingX/2-d, -200, -100], 400);
 }
 
 if(developmentRender)
 {
 	display() itemModule(testPrint=false);
     displayGhost() boardGhost();
+    displayGhost() boltGhosts();
 }
 else
 {
@@ -211,5 +222,20 @@ module boardGhost()
             // Right Hole
             tcy([42.0, 0, -50], d=3, h=100);
         }
+    }
+}
+
+module boltGhosts()
+{
+    boltGhost(x = 10.6);
+    boltGhost(x = 42.0);
+}
+
+module boltGhost(x)
+{
+    translate([x-boardX/2, 10.6+boardInteriorExtraY, topOfBoardZ])
+    {
+        tcy([0,0,0], d=5.4, h=2.9);
+        tcy([0,0,-boltLength], d=3, h=boltLength);
     }
 }
