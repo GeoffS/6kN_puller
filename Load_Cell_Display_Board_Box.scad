@@ -8,6 +8,7 @@ boardClearanceBelow = 4.8;
 boardThickness = 1.6;
 boardClearanceAbove = 9.5;
 boardHoleSpacingX = 31.6;
+boardHolesOffsetX = -1.3;
 boardHoleCtrsY = 10.6;
 boardHoleDia = 3.1;
 
@@ -44,7 +45,7 @@ topOfBoardZ = boardClearanceBelow + boardThickness;
 
 frontOfBoardY = boardInteriorExtraY;
 
-module itemModule()
+module itemModule(testPrint=false)
 {
 	difference()
     {
@@ -70,13 +71,16 @@ module itemModule()
                     doubleX() translate([cX, c2Y, z]) cylinder(d1=0, d2=20, h=10);
                 }
 
-                // // Barrel-jack hole:
-                barrelJackHoleZ = 20; //8;
-                tcu([-100, frontOfBoardY+20.5, topOfBoardZ-0.5], [100, 6.5, barrelJackHoleZ]);
+                if(!testPrint) 
+                {
+                    // Barrel-jack hole:
+                    barrelJackHoleZ = 20; //8;
+                    tcu([-100, frontOfBoardY+20.5, topOfBoardZ-0.5], [100, 6.5, barrelJackHoleZ]);
 
-                // 4-pin load-cell connector hole:
-                openingY = 12;
-                tcu([0, frontOfBoardY+boardY-openingY+0.5, topOfBoardZ+0.5], [100, openingY, 20]);
+                    // 4-pin load-cell connector hole:
+                    openingY = 12;
+                    tcu([0, frontOfBoardY+boardY-openingY+0.5, topOfBoardZ+0.5], [100, openingY, 20]);
+                }
             }
 
             // Board support structure:
@@ -149,6 +153,8 @@ module itemModule()
 
         // Holes:
         holesXform() hole();
+
+        if(testPrint) tcu([-200, -200, boardClearanceBelow+boardThickness-0.4], 400);
     }
 }
 
@@ -169,7 +175,7 @@ module hole()
 
 module holesXform()
 {
-    doubleX() translate([boardHoleSpacingX/2, boardHolesY, 0]) children();
+    translate([boardHolesOffsetX, boardHolesY, 0]) doubleX() translate([boardHoleSpacingX/2, 0, 0]) children();
 }
 
 module clip(d=0)
@@ -183,20 +189,27 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule();
+	display() itemModule(testPrint=true);
     displayGhost() boardGhost();
 }
 else
 {
-	itemModule();
+	itemModule(testPrint=true);
 }
 
 module boardGhost()
 {
-    difference()
+    translate([-boardX/2, boardInteriorExtraY, boardClearanceBelow]) difference()
     {
-        tcu([-boardX/2, boardInteriorExtraY, boardClearanceBelow], [boardX, boardY, boardThickness]);
+        tcu([0, 0, 0], [boardX, boardY, boardThickness]);
 
-        doubleX() translate([boardHoleSpacingX/2, boardHoleCtrsY+boardInteriorExtraY, -10]) cylinder(d=boardHoleDia, h=100);
+        // doubleX() translate([boardHoleSpacingX/2, boardHoleCtrsY+boardInteriorExtraY, -10]) cylinder(d=boardHoleDia, h=100);
+        translate([0,10.6,0])
+        {
+            // Left hole:
+            tcy([10.6, 0, -50], d=3, h=100);
+            // Right Hole
+            tcy([42.0, 0, -50], d=3, h=100);
+        }
     }
 }
