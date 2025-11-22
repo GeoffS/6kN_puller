@@ -71,7 +71,8 @@ module itemModule()
                 }
 
                 // // Barrel-jack hole:
-                tcu([-100, frontOfBoardY+20.5, topOfBoardZ-0.5], [100, 6.5, 8]);
+                barrelJackHoleZ = 20; //8;
+                tcu([-100, frontOfBoardY+20.5, topOfBoardZ-0.5], [100, 6.5, barrelJackHoleZ]);
 
                 // 4-pin load-cell connector hole:
                 openingY = 12;
