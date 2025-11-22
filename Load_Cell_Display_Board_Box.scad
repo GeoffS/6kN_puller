@@ -78,8 +78,8 @@ module itemModule(testPrint=false)
                     tcu([-100, frontOfBoardY+20.5, topOfBoardZ-0.5], [100, 6.5, barrelJackHoleZ]);
 
                     // 4-pin load-cell connector hole:
-                    openingY = 12;
-                    tcu([0, frontOfBoardY+boardY-openingY+0.5, topOfBoardZ+0.5], [100, openingY, 20]);
+                    openingY = 12.5;
+                    tcu([0, frontOfBoardY+boardY-openingY-0.5, topOfBoardZ+0.5], [100, openingY, 20]);
                 }
             }
 
@@ -189,7 +189,7 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule(testPrint=true);
+	display() itemModule(testPrint=false);
     displayGhost() boardGhost();
 }
 else
