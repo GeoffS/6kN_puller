@@ -48,9 +48,9 @@ echo(str("topOfBoardZ = ", topOfBoardZ));
 frontOfBoardY = boardInteriorExtraY;
 
 boltLength = 8; // M3x8mm
-nutRecessDia = M3_nutRecessDia;
-nutRecessZ = topOfBoardZ - boltLength - M3_nutRecessDepth;
-echo(str("nutRecessZ = ", nutRecessZ));
+// nutRecessDia = M3_nutRecessDia;
+// nutRecessZ = topOfBoardZ - boltLength - M3_nutRecessDepth;
+// echo(str("nutRecessZ = ", nutRecessZ));
 
 module itemModule(testPrint=false)
 {
@@ -177,8 +177,8 @@ module exterior()
 
 module hole()
 {
-    tcy([0,0,-100], d=3.2, h=200);
-    tcy([0,0,-20-boxWallThicknessZ-nutRecessZ], d=nutRecessDia, h=20, $fn=6);
+    tcy([0,0,-100], d=3, h=200);
+    // tcy([0,0,-20-boxWallThicknessZ-nutRecessZ], d=nutRecessDia, h=20, $fn=6);
 }
 
 module holesXform()
