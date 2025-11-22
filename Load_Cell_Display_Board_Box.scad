@@ -73,14 +73,8 @@ module itemModule()
                 // // Barrel-jack hole:
                 tcu([-100, frontOfBoardY+20.5, topOfBoardZ-0.5], [100, 6.5, 8]);
 
-                // // Micro-USB Hole:
-                // tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 10, 50]);
-
-                // // Barrel-jack and micro-USB holes combined:
-                // tcu([-100, frontOfBoardY+9, topOfBoardZ-2], [100, 23, 50]);
-
                 // 4-pin load-cell connector hole:
-                openingY = 12; //4*(0.1*25.4) + 5; // 4 pins at 0.1" spacing plus some extra
+                openingY = 12;
                 tcu([0, frontOfBoardY+boardY-openingY+0.5, topOfBoardZ+0.5], [100, openingY, 20]);
             }
 
@@ -107,9 +101,9 @@ module itemModule()
                     {
                         d = 4;
                         cz = 1;
-                        x1 = boxInteriorX/2 - 17 + d/2; //boardHoleSpacingX/2 - standoffBaseOD/2 + d/2;
+                        x1 = boxInteriorX/2 - 17 + d/2;
                         x2 = 40;
-                        y1 = boardInteriorExtraY + 14 - d/2; //boardHolesY - d/2;
+                        y1 = boardInteriorExtraY + 14 - d/2;
                         // Right side front:
                         hull()
                         {
@@ -179,7 +173,7 @@ module holesXform()
 
 module clip(d=0)
 {
-	tc([-200, -400+0.1-d, -10], 400);
+	// tc([-200, -400+0.1-d, -10], 400);
 
     // tcu([-d, -200, -200], 400);
     // tcu([-400-d, -200, -200], 400);
