@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (C) 2025 GeoffS
+# SPDX-License-Identifier: GPL-3.0-or-later
 """
 Realtime serial plotter with optional console-only mode.
 

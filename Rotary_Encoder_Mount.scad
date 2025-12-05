@@ -1,5 +1,7 @@
 // Copyright 2025 - Geoff SObering - All Rights Reserved
 // Licensed under the GNU GENERAL PUBLIC LICENSE, Version 3
+// SPDX-FileCopyrightText: 2025 Geoff SObering
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCADdesigns/chamferedCylinders.scad>
