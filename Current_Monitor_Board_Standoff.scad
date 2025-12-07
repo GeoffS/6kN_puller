@@ -6,18 +6,19 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCADdesigns/chamferedCylinders.scad>
 
-boardX = 13;
+$fn=360;
+
+boardX = 13.2;
+boardY = 31.6;
 boardOffsetZ = 9.4;
 
 holeCtrsX = 8.75;
 holeDia = 3;
 
-terminalRecessCtrsX = 4.42;
-
-mountY = 25;
-mountX = 13 + 4;
-mountZ = boardOffsetZ + 2;
 mountCornerDia = 3;
+mountY = boardY;
+mountX = boardX + mountCornerDia + 1;
+mountZ = boardOffsetZ + 2;
 
 module itemModule()
 {
@@ -32,7 +33,9 @@ module itemModule()
         // Mounting holes:
         doubleX() tcy([holeCtrsX/2, 13.8, -10], d=holeDia, h=100);
         // Recesses for the terminal:
-        hull() doubleX() tcy([terminalRecessCtrsX/2, 4.25, boardOffsetZ-2], d=3, h=100);
+        hull() doubleX() tcy([4.42/2, 4.25, boardOffsetZ-3], d=3, h=100);
+        // Recess for the pin connector:
+        hull() doubleX() tcy([5/2, 28.2, -10], d=3.8, h=100);
     }
 }
 
