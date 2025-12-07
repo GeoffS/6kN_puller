@@ -34,8 +34,8 @@ boardRecessZ = 4.5;
 
 boardOffsetZ = mountBaseZ + boardMainPinsZ;
 
-mountY = boardY + 2*mountExtraY;
 mountX = boardX + mountCornerDia + 2;
+mountY = boardY + 2*mountExtraY;
 mountZ = mountBaseZ + boardMainPinsZ + boardRecessZ; //boardOffsetZ + boardMainPinsZ + mountBaseZ;
 
 module itemModule()
@@ -61,6 +61,15 @@ module itemModule()
         {
             doubleX() tcy([boardEndPinsCtrsX/2, boardEndPinsOffseetY+mountExtraY-1, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
             doubleX() tcy([boardEndPinsCtrsX/2, 100, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
+        }
+
+        // Finger recesses:
+        doubleX() hull()
+        {
+            d = 20;
+            d2 = d * 1.4;
+            tsp([mountX/2+d/2-6, mountY/2, mountZ+d*0.07], d=d);
+            tsp([mountX/2+d2/2-6, mountY/2, mountZ+d*0.4], d=d2);
         }
     }
 }
