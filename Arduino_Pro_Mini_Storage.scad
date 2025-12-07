@@ -64,12 +64,35 @@ module itemModule()
         }
 
         // Finger recesses:
-        doubleX() hull()
+        // doubleX() hull()
+        // {
+        //     d = 20;
+        //     d2 = d * 1.4;
+        //     tsp([mountX/2+d/2-6, mountY/2, mountZ+d*0.07], d=d);
+        //     // translate([mountX/2, mountY/2, mountZ+d*0.07]) 
+        //     // {
+        //     //     tsp([+d/2-6, 0, 0], d=d);
+        //     //     dx = (mountX - boardX)/2;
+        //     //     rotate([0,90,0]) tcy([0,0,-dx], d=d*0.85, h=100);
+        //     // }
+        //     tsp([mountX/2+d2/2-6, mountY/2, mountZ+d*0.4], d=d2);
+        // }
+        d = 20;
+        translate([0, mountY/2, mountZ+d*0.05])
         {
-            d = 20;
+            
             d2 = d * 1.4;
-            tsp([mountX/2+d/2-6, mountY/2, mountZ+d*0.07], d=d);
-            tsp([mountX/2+d2/2-6, mountY/2, mountZ+d*0.4], d=d2);
+            doubleX() hull()
+            {
+                tsp([mountX/2+d/2-6, 0, d*0.07], d=d);
+                tsp([mountX/2+d2/2-6, 0, d*0.4], d=d2);
+            }
+            f = 0.8;
+            hull() doubleX() 
+            {
+                tsp([100, 0, d*0.07], d=d*f);
+                tsp([100, 0, d*0.4], d=d2*f);
+            }
         }
     }
 }
