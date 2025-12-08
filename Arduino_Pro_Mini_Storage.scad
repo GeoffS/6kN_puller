@@ -61,6 +61,13 @@ module itemModule()
             doubleX() tcy([boardEndPinsCtrsX/2, 100, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
         }
 
+        // End-pins connector recess:
+        doubleX() hull()
+        {
+            tcy([boardMainPinsCtrsX/2, mountY-boardEndPintsExtraY, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
+            tcy([boardMainPinsCtrsX/2, 100, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
+        }
+
         // Finger recesses:
         d = 20;
         difference()
