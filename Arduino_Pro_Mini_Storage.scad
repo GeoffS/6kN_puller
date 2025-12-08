@@ -8,21 +8,21 @@ include <../OpenSCADdesigns/chamferedCylinders.scad>
 
 // $fn=360;
 
-boardX = 19.0;
+boardX = 19.1;
 boardY = 34.0;
 
-boardEndPinsCtrsX = 12.2; // 0.5;
-boardEndPinsOffseetY = 31.7;
-boardEndPinsZ = 5.3;
+boardEndPinsCtrsX = 12.7; // 0.5;
+boardEndPintsExtraY = 7.5;
+boardEndPinsOffseetY = 29.7;
+boardEndPinsZ = 5.7;
 
 boardMainPinsCtrsX = 15.0; // 0.6"?
 boardMainPinsCtrsY = 27.7; // 1.1"?
 boardMainPinsOffsetY = 1.6;
-boardMainPinsDia = 3;
+boardMainPinsDia = boardX - boardMainPinsCtrsX;
 boardMainPinsZ = 9;
 
-holeCtrsX = 8.75;
-holeDia = 3;
+echo(str("boardMainPinsDia = ", boardMainPinsDia));
 
 mountCornerDia = 3;
 mountExtraY = 4;
@@ -33,7 +33,7 @@ boardRecessZ = 4.5;
 boardOffsetZ = mountBaseZ + boardMainPinsZ;
 
 mountX = boardX + mountCornerDia + 2;
-mountY = boardY + 2*mountExtraY;
+mountY = mountExtraY + boardY + boardEndPintsExtraY;
 mountZ = mountBaseZ + boardMainPinsZ + boardRecessZ;
 
 module itemModule()
@@ -57,12 +57,13 @@ module itemModule()
         // End-pins recess:
         hull()
         {
-            doubleX() tcy([boardEndPinsCtrsX/2, boardEndPinsOffseetY+mountExtraY-1, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
+            doubleX() tcy([boardEndPinsCtrsX/2, boardEndPinsOffseetY+mountExtraY, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
             doubleX() tcy([boardEndPinsCtrsX/2, 100, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
         }
 
+        // Finger recesses:
         d = 20;
-        translate([0, mountY/2, mountZ+d*0.05])
+        translate([0, mountExtraY+boardY/2, mountZ+d*0.05])
         {
             
             d2 = d * 1.4;
