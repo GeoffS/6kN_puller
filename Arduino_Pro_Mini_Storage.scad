@@ -63,21 +63,30 @@ module itemModule()
 
         // Finger recesses:
         d = 20;
-        translate([0, mountExtraY+boardY/2, mountZ+d*0.05])
+        difference()
         {
-            
-            d2 = d * 1.4;
-            doubleX() hull()
+            translate([0, mountExtraY+boardY/2, mountZ+d*0.05])
             {
-                tsp([mountX/2+d/2-6, 0, d*0.07], d=d);
-                tsp([mountX/2+d2/2-6, 0, d*0.4], d=d2);
+                
+                d2 = d * 1.4;
+                doubleX() hull()
+                {
+                    tsp([mountX/2+d/2-6, 0, d*0.07], d=d);
+                    tsp([mountX/2+d2/2-6, 0, d*0.4], d=d2);
+                }
+                f = 0.8;
+                difference() 
+                {
+                    hull() doubleX() 
+                    {
+                        tsp([100, 0, d*0.07], d=d*f);
+                        tsp([100, 0, d*0.4], d=d2*f);
+                    }
+                }
             }
-            f = 0.8;
-            hull() doubleX() 
-            {
-                tsp([100, 0, d*0.07], d=d*f);
-                tsp([100, 0, d*0.4], d=d2*f);
-            }
+            // Trim the center:
+            bx1 = boardX - 1;
+            tcu([-bx1/2, -10, 0], [bx1, 200, 100]);
         }
     }
 }
