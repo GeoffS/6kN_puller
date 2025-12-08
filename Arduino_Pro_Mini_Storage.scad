@@ -12,7 +12,6 @@ boardX = 19.0;
 boardY = 34.0;
 
 boardEndPinsCtrsX = 12.2; // 0.5;
-// boardEndPinsY = 12.2; // 0.5"?
 boardEndPinsOffseetY = 31.7;
 boardEndPinsZ = 5.3;
 
@@ -20,7 +19,6 @@ boardMainPinsCtrsX = 15.0; // 0.6"?
 boardMainPinsCtrsY = 27.7; // 1.1"?
 boardMainPinsOffsetY = 1.6;
 boardMainPinsDia = 3;
-// boardMainPinsZ = 4.5;
 boardMainPinsZ = 9;
 
 holeCtrsX = 8.75;
@@ -36,7 +34,7 @@ boardOffsetZ = mountBaseZ + boardMainPinsZ;
 
 mountX = boardX + mountCornerDia + 2;
 mountY = boardY + 2*mountExtraY;
-mountZ = mountBaseZ + boardMainPinsZ + boardRecessZ; //boardOffsetZ + boardMainPinsZ + mountBaseZ;
+mountZ = mountBaseZ + boardMainPinsZ + boardRecessZ;
 
 module itemModule()
 {
@@ -44,7 +42,7 @@ module itemModule()
     {
         translate([0, mountY/2, 0]) hull() doubleX() doubleY() 
         translate([(mountX-mountCornerDia)/2, (mountY-mountCornerDia)/2, 0]) 
-            simpleChamferedCylinder(d = mountCornerDia, h = mountZ, cz = 1);
+            simpleChamferedCylinderDoubleEnded(d = mountCornerDia, h = mountZ, cz = 1);
 
         // Board recess:
         tcu([-boardX/2, -50, boardOffsetZ], [boardX, 100, 100]);
@@ -63,20 +61,6 @@ module itemModule()
             doubleX() tcy([boardEndPinsCtrsX/2, 100, boardOffsetZ-boardEndPinsZ], d=boardMainPinsDia, h=100);
         }
 
-        // Finger recesses:
-        // doubleX() hull()
-        // {
-        //     d = 20;
-        //     d2 = d * 1.4;
-        //     tsp([mountX/2+d/2-6, mountY/2, mountZ+d*0.07], d=d);
-        //     // translate([mountX/2, mountY/2, mountZ+d*0.07]) 
-        //     // {
-        //     //     tsp([+d/2-6, 0, 0], d=d);
-        //     //     dx = (mountX - boardX)/2;
-        //     //     rotate([0,90,0]) tcy([0,0,-dx], d=d*0.85, h=100);
-        //     // }
-        //     tsp([mountX/2+d2/2-6, mountY/2, mountZ+d*0.4], d=d2);
-        // }
         d = 20;
         translate([0, mountY/2, mountZ+d*0.05])
         {
