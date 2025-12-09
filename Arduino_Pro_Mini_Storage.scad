@@ -78,7 +78,7 @@ module itemModule()
         d = 20;
         difference()
         {
-            translate([0, mountExtraY+boardY/2, mountZ+d*0.05])
+            translate([0, mountExtraY+boardY/2, mountZ+0.2])
             {
                 
                 d2 = d * 1.4;
