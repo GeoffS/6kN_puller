@@ -6,10 +6,11 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCADdesigns/chamferedCylinders.scad>
 
-// $fn=360;
+$fn=120;
 
 boardX = 19.1;
 boardY = 34.0;
+pcbThickness = 1.6;
 
 boardEndPinsCtrsX = 12.7; // 0.5;
 boardEndPintsExtraY = 7.5;
@@ -36,13 +37,18 @@ mountX = boardX + mountCornerDia + 2;
 mountY = mountExtraY + boardY + boardEndPintsExtraY;
 mountZ = mountBaseZ + boardMainPinsZ + boardRecessZ;
 
+module mountExterior()
+{
+    translate([0, mountY/2, 0]) hull() doubleX() doubleY() 
+        translate([(mountX-mountCornerDia)/2, (mountY-mountCornerDia)/2, 0]) 
+            simpleChamferedCylinderDoubleEnded(d = mountCornerDia, h = mountZ, cz = 1);
+}
+
 module itemModule()
 {
 	difference()
     {
-        translate([0, mountY/2, 0]) hull() doubleX() doubleY() 
-        translate([(mountX-mountCornerDia)/2, (mountY-mountCornerDia)/2, 0]) 
-            simpleChamferedCylinderDoubleEnded(d = mountCornerDia, h = mountZ, cz = 1);
+        mountExterior();
 
         // Board recess:
         tcu([-boardX/2, -50, boardOffsetZ], [boardX, 100, 100]);
@@ -91,10 +97,19 @@ module itemModule()
                     }
                 }
             }
+
             // Trim the center:
             bx1 = boardX - 1;
             tcu([-bx1/2, -10, 0], [bx1, 200, 100]);
         }
+    }
+
+    // Detents to keep the board from falling out:
+    intersection() 
+    {
+        mountExterior();
+        d = 2;
+        #translate([0, boardY/2+mountExtraY, boardOffsetZ+pcbThickness+d/2-0.1]) doubleX() doubleY() tsp([boardX/2+d/2-0.5, boardY/2-6, 0], d=d);
     }
 }
 
@@ -106,8 +121,14 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
+    displayGhost() boardGhost();
 }
 else
 {
 	itemModule();
+}
+
+module boardGhost()
+{
+    tcu([-boardX/2, mountExtraY, boardOffsetZ], [boardX, boardY, pcbThickness]);
 }
