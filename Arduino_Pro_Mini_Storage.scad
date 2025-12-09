@@ -109,7 +109,7 @@ module itemModule()
     {
         mountExterior();
         d = 2;
-        #translate([0, boardY/2+mountExtraY, boardOffsetZ+pcbThickness+d/2-0.1]) doubleX() doubleY() tsp([boardX/2+d/2-0.5, boardY/2-6, 0], d=d);
+        translate([0, boardY/2+mountExtraY, boardOffsetZ+pcbThickness+d/2-0.1]) doubleX() doubleY() tsp([boardX/2+d/2-0.5, boardY/2-6, 0], d=d);
     }
 }
 
