@@ -6,6 +6,9 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCADdesigns/chamferedCylinders.scad>
 
+makeNubs = false;
+makeRubberBand = false;
+
 $fn=120;
 
 boardX = 19.1;
@@ -44,7 +47,7 @@ module mountExterior()
             simpleChamferedCylinderDoubleEnded(d = mountCornerDia, h = mountZ, cz = 1);
 }
 
-module itemModule()
+module itemModule(nubs=false, rubberBands=false)
 {
 	difference()
     {
@@ -105,7 +108,7 @@ module itemModule()
     }
 
     // Detents to keep the board from falling out:
-    intersection() 
+    if(nubs) intersection() 
     {
         mountExterior();
         d = 2;
@@ -120,12 +123,13 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule();
+	display() itemModule(rubberBands=true);
     displayGhost() boardGhost();
 }
 else
 {
-	itemModule();
+	if(makeNubs) itemModule(nubs=true);
+    if(makeRubberBand) itemModule(rubberBands=true);
 }
 
 module boardGhost()
