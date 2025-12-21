@@ -40,11 +40,16 @@ mountX = boardX + mountCornerDia + 2;
 mountY = mountExtraY + boardY + boardEndPintsExtraY;
 mountZ = mountBaseZ + boardMainPinsZ + boardRecessZ;
 
+mountCZ = 1;
+
+
+fingerRecessY = mountExtraY+boardY/2;
+
 module mountExterior()
 {
     translate([0, mountY/2, 0]) hull() doubleX() doubleY() 
         translate([(mountX-mountCornerDia)/2, (mountY-mountCornerDia)/2, 0]) 
-            simpleChamferedCylinderDoubleEnded(d = mountCornerDia, h = mountZ, cz = 1);
+            simpleChamferedCylinderDoubleEnded(d = mountCornerDia, h = mountZ, cz = mountCZ);
 }
 
 module itemModule(nubs=false, rubberBands=false)
@@ -81,7 +86,7 @@ module itemModule(nubs=false, rubberBands=false)
         d = 20;
         difference()
         {
-            translate([0, mountExtraY+boardY/2, mountZ+0.2])
+            translate([0, fingerRecessY, mountZ+0.2])
             {
                 
                 d2 = d * 1.4;
@@ -114,17 +119,48 @@ module itemModule(nubs=false, rubberBands=false)
         d = 2;
         translate([0, boardY/2+mountExtraY, boardOffsetZ+pcbThickness+d/2-0.1]) doubleX() doubleY() tsp([boardX/2+d/2-0.5, boardY/2-6, 0], d=d);
     }
+
+    // Rubber band holders:
+    if(rubberBands) 
+    {
+        rubberBandHoleDia = 3.5;
+        rubberbandTabZ = 5;
+        mx2 = mountX/2;
+        dx = mx2 + rubberBandHoleDia/2 + mountCZ + 0.2;
+        echo(str("dx = ", dx));
+        difference()
+        {
+            translate([0, fingerRecessY, 0]) 
+            {   
+                difference()
+                {
+                    hull() doubleX() doubleY() translate([dx, 1, 0]) simpleChamferedCylinderDoubleEnded(d=10, h=rubberbandTabZ, cz=mountCZ);
+                    // Hole at -X:
+                    translate([-dx, 0, 0]) 
+                    {
+                        // Hole:
+                        tcy([0,0,-10], d=rubberBandHoleDia, h=50);
+                        // Chamfers:
+                        translate([0,0,rubberbandTabZ/2]) doubleZ() translate([0,0,rubberbandTabZ/2-rubberBandHoleDia/2-mountCZ]) cylinder(d1=0, d2=10, h=5);
+                    }
+                }
+            }
+            mountExterior();
+        }
+    }
 }
 
 module clip(d=0)
 {
-	//tc([-200, -400-d, -10], 400);
+	// tcu([-400-14.8-d, -200, -10], 400);
 }
 
 if(developmentRender)
 {
 	display() itemModule(rubberBands=true);
     displayGhost() boardGhost();
+
+    display() translate([-40,0,0]) itemModule(nubs=true);
 }
 else
 {
