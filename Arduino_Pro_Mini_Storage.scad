@@ -22,14 +22,14 @@ boardEndPinsZ = 5.7;
 
 boardMainPinsCtrsX = 15.0; // 0.6"?
 boardMainPinsCtrsY = 27.7; // 1.1"?
-boardMainPinsOffsetY = 1.6;
 boardMainPinsDia = boardX - boardMainPinsCtrsX;
+boardMainPinsOffsetY = boardMainPinsDia/2;
 boardMainPinsZ = 9;
 
 echo(str("boardMainPinsDia = ", boardMainPinsDia));
 
 mountCornerDia = 3;
-mountExtraY = 4;
+mountExtraY = 3;
 mountBaseZ = 1;
 
 boardRecessZ = 4.5;
@@ -59,7 +59,7 @@ module itemModule(nubs=false, rubberBands=false)
         mountExterior();
 
         // Board recess:
-        tcu([-boardX/2, -50, boardOffsetZ], [boardX, 100, 100]);
+        tcu([-boardX/2, mountExtraY-0.3, boardOffsetZ], [boardX, 100, 100]);
 
         // Main-pins recess:
         doubleX() hull()
