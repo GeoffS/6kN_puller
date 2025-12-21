@@ -59,7 +59,17 @@ module itemModule(nubs=false, rubberBands=false)
         mountExterior();
 
         // Board recess:
-        tcu([-boardX/2, mountExtraY-0.3, boardOffsetZ], [boardX, 100, 100]);
+        boardRecessOffsetX = boardX/2;
+        boardRecessOffsetY = mountExtraY-0.3;
+        tcu([-boardRecessOffsetX, boardRecessOffsetY, boardOffsetZ], [boardX, 100, 100]);
+
+        // Board recess chamfer:
+        boardRecessCZ = 1;
+        hull() 
+        {
+            doubleX() translate([-boardRecessOffsetX, boardRecessOffsetY, mountZ-boardRecessCZ]) cylinder(d1=0, d2=10, h=5);
+            doubleX() translate([-boardRecessOffsetX, 60, mountZ-boardRecessCZ]) cylinder(d1=0, d2=10, h=5);
+        }
 
         // Main-pins recess:
         doubleX() hull()
