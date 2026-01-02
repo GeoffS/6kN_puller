@@ -46,18 +46,28 @@ nubsDia = 2;
 
 fingerRecessY = mountExtraY+boardY/2;
 
-module mountExterior()
+module mountExterior(nubs=false)
 {
+    difference()
+    {
     translate([0, mountY/2, 0]) hull() doubleX() doubleY() 
         translate([(mountX-mountCornerDia)/2, (mountY-mountCornerDia)/2, 0]) 
             simpleChamferedCylinderDoubleEnded(d = mountCornerDia, h = mountZ, cz = mountCZ);
+    
+    // Make the nubs on "fingers" for more bend:
+    if(nubs)
+    {
+        fingersGapY = 0.3;
+        nubsXform() translate([-0.1, 0, mountBaseZ+1]) doubleY() tcu([0, 1,0], [20, fingersGapY, 20]);
+    }
+    }
 }
 
 module itemModule(nubs=false, rubberBands=false)
 {
 	difference()
     {
-        mountExterior();
+        mountExterior(nubs=nubs);
 
         // Board recess:
         boardRecessOffsetX = boardX/2;
@@ -121,21 +131,12 @@ module itemModule(nubs=false, rubberBands=false)
             bx1 = boardX - 1;
             tcu([-bx1/2, -10, 0], [bx1, 200, 100]);
         }
-
-        // Make the nubs on "fingers" for more bend:
-        if(nubs)
-        {
-            // mountExterior();
-            // d = 2;
-            // translate([0, boardY/2+mountExtraY, boardOffsetZ+pcbThickness+d/2-0.3]) doubleX() doubleY() tsp([boardX/2+d/2-0.5, boardY/2-5, 0], d=d);
-        }
     }
 
     // Detents to keep the board from falling out:
     if(nubs) intersection() 
     {
-        mountExterior();
-        // nubsXform() tsp([boardX/2+nubsDia/2-0.5, boardY/2-5, 0], d=nubsDia);
+        mountExterior(nubs=nubs);
         nubsXform() tsp([nubsDia/2-0.5, 0, boardOffsetZ+pcbThickness+nubsDia/2-0.3], d=nubsDia);
         
     }
@@ -172,7 +173,7 @@ module itemModule(nubs=false, rubberBands=false)
 
 module nubsXform()
 {
-    translate([0, boardY/2+mountExtraY, 0]) doubleX() doubleY() translate([boardX/2, boardY/2-5, 0]) children();
+    translate([0, boardY/2+mountExtraY, 0]) doubleX() doubleY() translate([boardX/2, boardY/2-5.5, 0]) children();
 }
 
 module clip(d=0)
