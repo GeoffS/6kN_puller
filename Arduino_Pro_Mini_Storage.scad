@@ -57,8 +57,9 @@ module mountExterior(nubs=false)
     // Make the nubs on "fingers" for more bend:
     if(nubs)
     {
-        fingersGapY = 0.3;
-        nubsXform() translate([-0.1, 0, mountBaseZ+1]) doubleY() tcu([0, 1,0], [20, fingersGapY, 20]);
+        fingersY = 1.4;
+        fingersGapY = 0.6;
+        nubsXform() translate([-0.3, 0, mountBaseZ+1]) doubleY() tcu([0, fingersY, 0], [20, fingersGapY, 20]);
     }
     }
 }
@@ -137,7 +138,7 @@ module itemModule(nubs=false, rubberBands=false)
     if(nubs) intersection() 
     {
         mountExterior(nubs=nubs);
-        nubsXform() tsp([nubsDia/2-0.5, 0, boardOffsetZ+pcbThickness+nubsDia/2-0.3], d=nubsDia);
+        nubsXform() tsp([nubsDia/2-0.5, 0, boardOffsetZ+pcbThickness+nubsDia/2-0.5], d=nubsDia);
         
     }
 
@@ -188,7 +189,7 @@ if(developmentRender)
     // display() translate([-40,0,0]) itemModule(nubs=true);
 
 	display() itemModule(nubs=true);
-    displayGhost() boardGhost();
+    // displayGhost() boardGhost();
     display() translate([-40,0,0]) itemModule(rubberBands=true);
 }
 else
